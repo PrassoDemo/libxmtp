@@ -515,6 +515,9 @@ impl serde::Serialize for validate_group_messages_response::ValidationResponse {
         if !self.group_id.is_empty() {
             len += 1;
         }
+        if self.is_commit {
+            len += 1;
+        }
         let mut struct_ser = serializer.serialize_struct("xmtp.mls_validation.v1.ValidateGroupMessagesResponse.ValidationResponse", len)?;
         if self.is_ok {
             struct_ser.serialize_field("isOk", &self.is_ok)?;
@@ -524,6 +527,9 @@ impl serde::Serialize for validate_group_messages_response::ValidationResponse {
         }
         if !self.group_id.is_empty() {
             struct_ser.serialize_field("groupId", &self.group_id)?;
+        }
+        if self.is_commit {
+            struct_ser.serialize_field("isCommit", &self.is_commit)?;
         }
         struct_ser.end()
     }
@@ -541,6 +547,8 @@ impl<'de> serde::Deserialize<'de> for validate_group_messages_response::Validati
             "errorMessage",
             "group_id",
             "groupId",
+            "is_commit",
+            "isCommit",
         ];
 
         #[allow(clippy::enum_variant_names)]
@@ -548,6 +556,7 @@ impl<'de> serde::Deserialize<'de> for validate_group_messages_response::Validati
             IsOk,
             ErrorMessage,
             GroupId,
+            IsCommit,
         }
         impl<'de> serde::Deserialize<'de> for GeneratedField {
             fn deserialize<D>(deserializer: D) -> std::result::Result<GeneratedField, D::Error>
@@ -572,6 +581,7 @@ impl<'de> serde::Deserialize<'de> for validate_group_messages_response::Validati
                             "isOk" | "is_ok" => Ok(GeneratedField::IsOk),
                             "errorMessage" | "error_message" => Ok(GeneratedField::ErrorMessage),
                             "groupId" | "group_id" => Ok(GeneratedField::GroupId),
+                            "isCommit" | "is_commit" => Ok(GeneratedField::IsCommit),
                             _ => Err(serde::de::Error::unknown_field(value, FIELDS)),
                         }
                     }
@@ -594,6 +604,7 @@ impl<'de> serde::Deserialize<'de> for validate_group_messages_response::Validati
                 let mut is_ok__ = None;
                 let mut error_message__ = None;
                 let mut group_id__ = None;
+                let mut is_commit__ = None;
                 while let Some(k) = map_.next_key()? {
                     match k {
                         GeneratedField::IsOk => {
@@ -614,12 +625,19 @@ impl<'de> serde::Deserialize<'de> for validate_group_messages_response::Validati
                             }
                             group_id__ = Some(map_.next_value()?);
                         }
+                        GeneratedField::IsCommit => {
+                            if is_commit__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("isCommit"));
+                            }
+                            is_commit__ = Some(map_.next_value()?);
+                        }
                     }
                 }
                 Ok(validate_group_messages_response::ValidationResponse {
                     is_ok: is_ok__.unwrap_or_default(),
                     error_message: error_message__.unwrap_or_default(),
                     group_id: group_id__.unwrap_or_default(),
+                    is_commit: is_commit__.unwrap_or_default(),
                 })
             }
         }

@@ -1,17 +1,14 @@
 // @generated
 /// Generated client implementations.
-#[cfg(not(target_arch = "wasm32"))]
-pub mod payer_api_client {
+pub mod gateway_api_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
     use tonic::codegen::http::Uri;
-    /** Deprecated: use gateway_api.GatewayApi
-*/
     #[derive(Debug, Clone)]
-    pub struct PayerApiClient<T> {
+    pub struct GatewayApiClient<T> {
         inner: tonic::client::Grpc<T>,
     }
-    impl PayerApiClient<tonic::transport::Channel> {
+    impl GatewayApiClient<tonic::transport::Channel> {
         /// Attempt to create a new client by connecting to a given endpoint.
         pub async fn connect<D>(dst: D) -> Result<Self, tonic::transport::Error>
         where
@@ -22,7 +19,7 @@ pub mod payer_api_client {
             Ok(Self::new(conn))
         }
     }
-    impl<T> PayerApiClient<T>
+    impl<T> GatewayApiClient<T>
     where
         T: tonic::client::GrpcService<tonic::body::BoxBody>,
         T::Error: Into<StdError>,
@@ -40,7 +37,7 @@ pub mod payer_api_client {
         pub fn with_interceptor<F>(
             inner: T,
             interceptor: F,
-        ) -> PayerApiClient<InterceptedService<T, F>>
+        ) -> GatewayApiClient<InterceptedService<T, F>>
         where
             F: tonic::service::Interceptor,
             T::ResponseBody: Default,
@@ -54,7 +51,7 @@ pub mod payer_api_client {
                 http::Request<tonic::body::BoxBody>,
             >>::Error: Into<StdError> + Send + Sync,
         {
-            PayerApiClient::new(InterceptedService::new(inner, interceptor))
+            GatewayApiClient::new(InterceptedService::new(inner, interceptor))
         }
         /// Compress requests with the given encoding.
         ///
@@ -87,11 +84,14 @@ pub mod payer_api_client {
             self.inner = self.inner.max_encoding_message_size(limit);
             self
         }
+        ///
         pub async fn publish_client_envelopes(
             &mut self,
-            request: impl tonic::IntoRequest<super::PublishClientEnvelopesRequest>,
+            request: impl tonic::IntoRequest<
+                super::super::payer_api::PublishClientEnvelopesRequest,
+            >,
         ) -> std::result::Result<
-            tonic::Response<super::PublishClientEnvelopesResponse>,
+            tonic::Response<super::super::payer_api::PublishClientEnvelopesResponse>,
             tonic::Status,
         > {
             self.inner
@@ -105,23 +105,24 @@ pub mod payer_api_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/xmtp.xmtpv4.payer_api.PayerApi/PublishClientEnvelopes",
+                "/xmtp.xmtpv4.gateway_api.GatewayApi/PublishClientEnvelopes",
             );
             let mut req = request.into_request();
             req.extensions_mut()
                 .insert(
                     GrpcMethod::new(
-                        "xmtp.xmtpv4.payer_api.PayerApi",
+                        "xmtp.xmtpv4.gateway_api.GatewayApi",
                         "PublishClientEnvelopes",
                     ),
                 );
             self.inner.unary(req, path, codec).await
         }
+        ///
         pub async fn get_nodes(
             &mut self,
-            request: impl tonic::IntoRequest<super::GetNodesRequest>,
+            request: impl tonic::IntoRequest<super::super::payer_api::GetNodesRequest>,
         ) -> std::result::Result<
-            tonic::Response<super::GetNodesResponse>,
+            tonic::Response<super::super::payer_api::GetNodesResponse>,
             tonic::Status,
         > {
             self.inner
@@ -135,49 +136,52 @@ pub mod payer_api_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/xmtp.xmtpv4.payer_api.PayerApi/GetNodes",
+                "/xmtp.xmtpv4.gateway_api.GatewayApi/GetNodes",
             );
             let mut req = request.into_request();
             req.extensions_mut()
-                .insert(GrpcMethod::new("xmtp.xmtpv4.payer_api.PayerApi", "GetNodes"));
+                .insert(
+                    GrpcMethod::new("xmtp.xmtpv4.gateway_api.GatewayApi", "GetNodes"),
+                );
             self.inner.unary(req, path, codec).await
         }
     }
 }
 /// Generated server implementations.
-#[cfg(not(target_arch = "wasm32"))]
-pub mod payer_api_server {
+pub mod gateway_api_server {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
-    /// Generated trait containing gRPC methods that should be implemented for use with PayerApiServer.
+    /// Generated trait containing gRPC methods that should be implemented for use with GatewayApiServer.
     #[async_trait]
-    pub trait PayerApi: Send + Sync + 'static {
+    pub trait GatewayApi: Send + Sync + 'static {
+        ///
         async fn publish_client_envelopes(
             &self,
-            request: tonic::Request<super::PublishClientEnvelopesRequest>,
+            request: tonic::Request<
+                super::super::payer_api::PublishClientEnvelopesRequest,
+            >,
         ) -> std::result::Result<
-            tonic::Response<super::PublishClientEnvelopesResponse>,
+            tonic::Response<super::super::payer_api::PublishClientEnvelopesResponse>,
             tonic::Status,
         >;
+        ///
         async fn get_nodes(
             &self,
-            request: tonic::Request<super::GetNodesRequest>,
+            request: tonic::Request<super::super::payer_api::GetNodesRequest>,
         ) -> std::result::Result<
-            tonic::Response<super::GetNodesResponse>,
+            tonic::Response<super::super::payer_api::GetNodesResponse>,
             tonic::Status,
         >;
     }
-    /** Deprecated: use gateway_api.GatewayApi
-*/
     #[derive(Debug)]
-    pub struct PayerApiServer<T: PayerApi> {
+    pub struct GatewayApiServer<T: GatewayApi> {
         inner: Arc<T>,
         accept_compression_encodings: EnabledCompressionEncodings,
         send_compression_encodings: EnabledCompressionEncodings,
         max_decoding_message_size: Option<usize>,
         max_encoding_message_size: Option<usize>,
     }
-    impl<T: PayerApi> PayerApiServer<T> {
+    impl<T: GatewayApi> GatewayApiServer<T> {
         pub fn new(inner: T) -> Self {
             Self::from_arc(Arc::new(inner))
         }
@@ -228,9 +232,9 @@ pub mod payer_api_server {
             self
         }
     }
-    impl<T, B> tonic::codegen::Service<http::Request<B>> for PayerApiServer<T>
+    impl<T, B> tonic::codegen::Service<http::Request<B>> for GatewayApiServer<T>
     where
-        T: PayerApi,
+        T: GatewayApi,
         B: Body + Send + 'static,
         B::Error: Into<StdError> + Send + 'static,
     {
@@ -245,25 +249,28 @@ pub mod payer_api_server {
         }
         fn call(&mut self, req: http::Request<B>) -> Self::Future {
             match req.uri().path() {
-                "/xmtp.xmtpv4.payer_api.PayerApi/PublishClientEnvelopes" => {
+                "/xmtp.xmtpv4.gateway_api.GatewayApi/PublishClientEnvelopes" => {
                     #[allow(non_camel_case_types)]
-                    struct PublishClientEnvelopesSvc<T: PayerApi>(pub Arc<T>);
+                    struct PublishClientEnvelopesSvc<T: GatewayApi>(pub Arc<T>);
                     impl<
-                        T: PayerApi,
-                    > tonic::server::UnaryService<super::PublishClientEnvelopesRequest>
-                    for PublishClientEnvelopesSvc<T> {
-                        type Response = super::PublishClientEnvelopesResponse;
+                        T: GatewayApi,
+                    > tonic::server::UnaryService<
+                        super::super::payer_api::PublishClientEnvelopesRequest,
+                    > for PublishClientEnvelopesSvc<T> {
+                        type Response = super::super::payer_api::PublishClientEnvelopesResponse;
                         type Future = BoxFuture<
                             tonic::Response<Self::Response>,
                             tonic::Status,
                         >;
                         fn call(
                             &mut self,
-                            request: tonic::Request<super::PublishClientEnvelopesRequest>,
+                            request: tonic::Request<
+                                super::super::payer_api::PublishClientEnvelopesRequest,
+                            >,
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
                             let fut = async move {
-                                <T as PayerApi>::publish_client_envelopes(&inner, request)
+                                <T as GatewayApi>::publish_client_envelopes(&inner, request)
                                     .await
                             };
                             Box::pin(fut)
@@ -291,23 +298,28 @@ pub mod payer_api_server {
                     };
                     Box::pin(fut)
                 }
-                "/xmtp.xmtpv4.payer_api.PayerApi/GetNodes" => {
+                "/xmtp.xmtpv4.gateway_api.GatewayApi/GetNodes" => {
                     #[allow(non_camel_case_types)]
-                    struct GetNodesSvc<T: PayerApi>(pub Arc<T>);
-                    impl<T: PayerApi> tonic::server::UnaryService<super::GetNodesRequest>
-                    for GetNodesSvc<T> {
-                        type Response = super::GetNodesResponse;
+                    struct GetNodesSvc<T: GatewayApi>(pub Arc<T>);
+                    impl<
+                        T: GatewayApi,
+                    > tonic::server::UnaryService<
+                        super::super::payer_api::GetNodesRequest,
+                    > for GetNodesSvc<T> {
+                        type Response = super::super::payer_api::GetNodesResponse;
                         type Future = BoxFuture<
                             tonic::Response<Self::Response>,
                             tonic::Status,
                         >;
                         fn call(
                             &mut self,
-                            request: tonic::Request<super::GetNodesRequest>,
+                            request: tonic::Request<
+                                super::super::payer_api::GetNodesRequest,
+                            >,
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
                             let fut = async move {
-                                <T as PayerApi>::get_nodes(&inner, request).await
+                                <T as GatewayApi>::get_nodes(&inner, request).await
                             };
                             Box::pin(fut)
                         }
@@ -352,7 +364,7 @@ pub mod payer_api_server {
             }
         }
     }
-    impl<T: PayerApi> Clone for PayerApiServer<T> {
+    impl<T: GatewayApi> Clone for GatewayApiServer<T> {
         fn clone(&self) -> Self {
             let inner = self.inner.clone();
             Self {
@@ -364,7 +376,7 @@ pub mod payer_api_server {
             }
         }
     }
-    impl<T: PayerApi> tonic::server::NamedService for PayerApiServer<T> {
-        const NAME: &'static str = "xmtp.xmtpv4.payer_api.PayerApi";
+    impl<T: GatewayApi> tonic::server::NamedService for GatewayApiServer<T> {
+        const NAME: &'static str = "xmtp.xmtpv4.gateway_api.GatewayApi";
     }
 }
